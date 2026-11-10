@@ -1,0 +1,9 @@
+.venv/
+data/
+runs/
+*.pt
+!models/*.pt
+__pycache__/
+.DS_Store
+.env
+*.log

@@ -1,0 +1,83 @@
+# role: obstacle (gera aviso) | moving (avisa só quando perto) | privacy (só é borrado)
+# fixed: obstáculo fixo, pode virar barreira no mapa (enviado como api_type em POST /api/events)
+# openimages: classes do Open Images V7 mapeadas para esta classe
+
+classes:
+  - name: pessoa
+    label_pt: pessoa
+    role: moving
+    fixed: false
+    openimages: [Person, Man, Woman, Boy, Girl]
+  - name: carro
+    label_pt: carro
+    role: obstacle
+    fixed: false
+    openimages: [Car, Taxi, Van, Truck]
+  - name: moto
+    label_pt: moto
+    role: obstacle
+    fixed: false
+    openimages: [Motorcycle]
+  - name: bicicleta
+    label_pt: bicicleta
+    role: obstacle
+    fixed: false
+    openimages: [Bicycle]
+  - name: poste
+    api_type: poste
+    label_pt: poste
+    role: obstacle
+    fixed: true
+    openimages: [Street light]
+  - name: placa
+    api_type: placa
+    label_pt: placa
+    role: obstacle
+    fixed: true
+    openimages: [Traffic sign, Stop sign]
+  - name: arvore
+    api_type: galho
+    label_pt: árvore ou galho
+    role: obstacle
+    fixed: true
+    openimages: [Tree, Palm tree]
+  - name: lixeira
+    api_type: lixeira
+    label_pt: lixeira
+    role: obstacle
+    fixed: true
+    openimages: [Waste container]
+  - name: banco
+    api_type: outro
+    label_pt: banco
+    role: obstacle
+    fixed: true
+    openimages: [Bench]
+  - name: hidrante
+    api_type: outro
+    label_pt: hidrante
+    role: obstacle
+    fixed: true
+    openimages: [Fire hydrant]
+  - name: escada
+    api_type: degrau
+    label_pt: escada
+    role: obstacle
+    fixed: true
+    openimages: [Stairs]
+  - name: buraco
+    api_type: buraco
+    label_pt: buraco
+    role: obstacle
+    fixed: true
+    openimages: []          # vem de scripts/02_download_potholes.py
+  - name: rosto
+    label_pt: rosto
+    role: privacy
+    fixed: false
+    openimages: [Human face]
+  - name: placa_veiculo
+    label_pt: placa de veículo
+    role: privacy
+    fixed: false
+    openimages: [Vehicle registration plate]
