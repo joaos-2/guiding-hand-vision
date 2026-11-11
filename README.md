@@ -4,6 +4,8 @@ Componente de **Visão** do Guiding Hand, projeto do desafio **CitizenTech** (FI
 
 O Guiding Hand é um par de óculos inteligentes que ajuda pessoas cegas ou com baixa visão a andar pela cidade com mais segurança. Este repositório tem o modelo de **detecção de objetos em tempo real** que reconhece obstáculos de calçada e o código que transforma essas detecções em avisos curtos de voz, como *"placa na altura da cabeça, à frente"*.
 
+**▶️ Vídeo de demonstração:** [youtu.be/5_8NQZYl8Co](https://youtu.be/5_8NQZYl8Co)
+
 ## 👥 Integrantes
 
 - João Rodrigo Solano Nogueira, RM 551319
@@ -18,7 +20,7 @@ O Guiding Hand é um par de óculos inteligentes que ajuda pessoas cegas ou com 
    - **Para o filtro de avisos:** `pessoa`.
    - **Para anonimização (LGPD):** `rosto` e `placa_veiculo`.
 2. **Gera um único aviso por vez**, priorizando o que está perto, no caminho e **na altura da cabeça**, que é justamente o que a bengala não alcança.
-3. **Evita excesso de avisos:** pessoas andando longe não geram aviso, e o mesmo obstáculo não é repetido em seguida.
+3. **Evita excesso de avisos:** só avisa o que está no caminho ou perto (carros estacionados e árvores ao lado da calçada ficam em silêncio), pessoas andando longe não geram aviso, e o mesmo obstáculo não é repetido em seguida.
 4. **Borra rostos e placas de veículos** antes de qualquer exibição ou gravação.
 5. **Confirma obstáculos fixos** (precisam aparecer em vários quadros seguidos) e envia só o tipo e a posição aproximada para o mapa de barreiras do [Guiding Hand Cloud](https://github.com/joaos-2/guiding-hand-cloud), em `POST /api/events`. Nenhuma imagem sai do dispositivo.
 
@@ -88,7 +90,7 @@ python scripts/03_build_dataset.py   # metade vai para o treino e metade para o 
 
 ## Resultados
 
-YOLO11s, imagens de 640 px, treinado no Kaggle (2× T4). O early stopping (paciência de 15) parou o treino na época 60, e o melhor checkpoint é o da época 45. Números no conjunto de teste (894 imagens que o modelo nunca viu):
+YOLO11s, imagens de 640 px, treinado no Kaggle (GPU T4). O early stopping (paciência de 15) parou o treino na época 60, e o melhor checkpoint é o da época 45. Números no conjunto de teste (894 imagens que o modelo nunca viu):
 
 | mAP50 | mAP50-95 | Precisão | Recall | GPU T4 | CPU |
 |---|---|---|---|---|---|
