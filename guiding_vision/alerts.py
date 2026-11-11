@@ -41,7 +41,9 @@ def direction_of(d: Detection) -> str:
 
 
 def in_corridor(d: Detection) -> bool:
-    return d.x1 > CORRIDOR[0] and d.x0 < CORRIDOR[1]
+    """Cobre ao menos um quarto da faixa central; só encostar na borda não conta."""
+    overlap = min(d.x1, CORRIDOR[1]) - max(d.x0, CORRIDOR[0])
+    return overlap >= 0.25 * (CORRIDOR[1] - CORRIDOR[0])
 
 
 def proximity(d: Detection, distance_m: float | None = None) -> str:
@@ -78,9 +80,15 @@ class AlertEngine:
             head = is_head_height(d)
             if d.cls.role == "moving" and not (prox == "perto" and corridor):
                 continue
+            # Fora do caminho só importa o que está perto; árvore ao lado da calçada não é obstáculo.
+            if d.cls.role == "obstacle" and not corridor and (prox != "perto" or d.cls.name == "arvore"):
+                continue
             if prox == "longe" and not head:
                 continue
             direction = direction_of(d)
+            # A copa vira uma caixa larga que invade o caminho mesmo com o tronco ao lado.
+            if d.cls.name == "arvore" and direction != "à frente":
+                continue
             text = d.cls.label_pt + (" na altura da cabeça" if head else "") + ", " + direction
             if prox == "perto":
                 text += ", perto"

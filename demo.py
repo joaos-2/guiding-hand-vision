@@ -39,10 +39,17 @@ def frames(source: str):
     cap = cv2.VideoCapture(int(source) if source.isdigit() else source)
     if not cap.isOpened():
         raise SystemExit(f"Não consegui abrir a fonte de vídeo: {source}")
+    # Arquivo de vídeo toca no próprio fps; sem isso ele passa acelerado e os avisos se atropelam.
+    period = 0.0 if source.isdigit() else 1 / (cap.get(cv2.CAP_PROP_FPS) or 30)
+    start = time.perf_counter()
+    k = 0
     while True:
         ok, frame = cap.read()
         if not ok:
             break
+        if period:
+            time.sleep(max(0.0, start + k * period - time.perf_counter()))
+        k += 1
         yield frame, False
     cap.release()
 

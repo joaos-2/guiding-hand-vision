@@ -34,6 +34,19 @@ def test_pessoa_perto_no_corredor_avisa():
     assert a is not None and "perto" in a.text
 
 
+def test_carro_fora_do_caminho_so_avisa_perto():
+    assert AlertEngine().step([det("carro", 0.0, 0.6, 0.25, 0.85)], now=0) is None
+    assert AlertEngine().step([det("carro", 0.0, 0.6, 0.34, 0.85)], now=0) is None  # só encosta na faixa
+    assert AlertEngine().step([det("carro", 0.0, 0.4, 0.25, 0.95)], now=0) is not None
+    assert AlertEngine().step([det("carro", 0.35, 0.6, 0.6, 0.85)], now=0) is not None
+
+
+def test_arvore_ao_lado_do_caminho_nao_avisa():
+    assert AlertEngine().step([det("arvore", 0.0, 0.0, 0.25, 0.9)], now=0) is None
+    a = AlertEngine().step([det("arvore", 0.3, 0.0, 0.7, 0.4)], now=0)
+    assert a is not None and "cabeça" in a.text
+
+
 def test_rosto_e_placa_de_veiculo_nao_geram_aviso():
     dets = [det("rosto", 0.4, 0.1, 0.6, 0.9), det("placa_veiculo", 0.4, 0.5, 0.6, 0.9)]
     assert AlertEngine().step(dets, now=0) is None
